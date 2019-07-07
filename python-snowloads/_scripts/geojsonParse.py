@@ -54,31 +54,14 @@ mapDict = {}  # final output dict to be written into leaflet format
 for cnt, item in enumerate(features):  # step through all values within file, note this includes county data as well
     for k, v in item.items():  # step into the 'geometry', 'properties', and 'type' dicts
 
+        if item['properties']['description'] is not None:  #  get a title for the dictionary - we only want values that have a description
+            description = item['properties']['description']
+            title = re.search("(?<=<p>)(.*?)(?=<\/p>)", description).group(0)  # regex code hacked together from stack overflow
 
-        # parse out written description
-        description = None  # assign blank variable for description so no error if "None"
-        if k == 'properties':
-            if None != v['description']:
-                description = v['description']
-
-        # parse out coordinates
-        coords = None
-        if k == 'geometry':
-            if v.get('geometries') is not None:  # some containers are empty and return error
-                for geometryContainer in v.get('geometries'):
-                    if geometryContainer.get('type') != 'Point':  # coords have arbitrary (?) point data
-                        coords = geometryContainer['coordinates'][0]  # coords are nested a few times
-
-        #  get a title for the dictionary - we only want values that have a description
-        title = None
-        if description:  # non-empty strings return TRUE
-            title = re.search("(?<=<p>)(.*?)(?=<\/p>)", description).group(
-                0)  # regex code hacked together from stack overflow
-            title = title.strip()
-
-        # cobble it all together
+            if 'geometries' in item['geometry']:  # some containers are empty and return error
+                if item['geometry']['geometries'][0]['type'] is not 'Point':  # coords have arbitrary (?) point data
+                    coords = (item['geometry']['geometries'][1]['coordinates'])  # coords are nested a few times
         mapDict[title] = [description, coords]
-    # print(title, description[1:10], coords[1:10])
+
 for k, v in mapDict.items():
     print(k, v)
-
