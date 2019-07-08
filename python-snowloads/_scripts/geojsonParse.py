@@ -50,6 +50,6 @@ for k,v in sorted(mapDict.items()):
             file.write('%s' % item + '\n')
     file.write(']).addTo(mymap);')
     file.write('\n')
-    file.write(k + '.bindPopup("' + v[0] + '");')
+    file.write(k + '.bindPopup("' + k + '");')
     file.write('\n\n')
 file.close()
