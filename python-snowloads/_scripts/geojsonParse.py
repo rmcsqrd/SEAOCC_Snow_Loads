@@ -53,3 +53,5 @@ for k,v in sorted(mapDict.items()):
     file.write(k + '.bindPopup("' + k + '");')
     file.write('\n\n')
 file.close()
+
+# gee-willickers I hope this works
