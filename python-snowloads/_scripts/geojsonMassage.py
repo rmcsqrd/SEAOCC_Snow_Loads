@@ -11,7 +11,7 @@ dataWriteDirectory = "//Users//riomcmahon//Programming//snowloads//support//data
 
 ## Load JSON ##
 
-with open(dataGetDirectory+"Counties_April_20.geojson","r") as file:
+with open(dataGetDirectory+"Placer_County.geojson","r") as file: # use this to change the filename
     data = json.load(file)
 
 ## Parse JSON ##
